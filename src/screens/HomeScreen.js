@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
+import { searchApi } from '../api/searchAPI';
 import RestaurantsScreen from './RestaurantsScreen';
 
 const HomeScreen = ({ navigation }) => {
@@ -17,13 +18,13 @@ const HomeScreen = ({ navigation }) => {
                 <Button 
                     title="Search API" 
                     style={styles.title}
-                    onPress={console.log('button pressed', buttonPressed), () => {setButtonPressed(true)}}
+                    onPress={() => {setButtonPressed(true)}}
                 />
             </View>
         );
     }
     return (
-        <RestaurantsScreen results={searchTerm}/>
+        <RestaurantsScreen searchTerm={searchTerm}/>
     );
 };
 

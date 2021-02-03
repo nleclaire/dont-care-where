@@ -1,41 +1,31 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, StyleSheet, ImageBackground, FlatList, TouchableOpacity } from 'react-native';
-import yelp from '../api/yelp';
 import { Context } from '../context/DontCareWhereContext';
 import RestaurantInfo from '../components/RestaurantInfo';
+import { searchApi } from '../api/searchAPI';
 
-
-const RestaurantsScreen = ({ navigation, results }) => {
+const RestaurantsScreen = ({ navigation, searchTerm }) => {
     const { addRestaurant, state }  = useContext(Context);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [result, setResult] = useState(null);
-    const [current, setCurrent] = useState(0);
-
-    const searchApi = async (results) => {
-        setIsLoading(true);
-        const response = await yelp.get('/search', {
-            params: {
-                limit: 25,
-                term: results,
-                location: 'Louisville'
-            }
-        });
-        setCurrent(Math.floor(Math.random() * 25));
-        setResult([response.data.businesses[current]]);
-        // console.log(result);
-        setIsLoading(false);
-    };
     
-    useEffect(() => {
-        searchApi('food');
-    }, []);
+    const useSearchAPI = () => {
+        useEffect(() => {
+            setIsLoading(true);
+            searchApi(searchTerm)
+                .then(response => setResult(response));    
+            setIsLoading(false);
+        }, []);
+    }
 
-    if (!isLoading) {
+    useSearchAPI();
+
+    if (!isLoading && result) {
         console.log(result);
         return (
-            <View>
-                <TouchableOpacity onPress={() => searchApi()}>
-                    <ImageBackground source={ result.image_url } style={styles.image}>
+            <View style={styles.card}>
+                <TouchableOpacity onPress={() => searchApi('food')}>
+                    <ImageBackground source={ {uri: result.image_url} } style={styles.image}>
                         <RestaurantInfo style={styles.container} result={result}/>
                     </ImageBackground>
                 </TouchableOpacity>
@@ -72,11 +62,15 @@ const RestaurantsScreen = ({ navigation, results }) => {
 
 const styles = StyleSheet.create({
     image: {
-        height: 650,
-        flexDirection: 'row',
+        height: 800,
+        flexDirection: 'row'
     },
     container: {
         
+    },
+    card: {
+      flex: 1,
+      height: 650
     }
 });
 
