@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import { searchApi } from '../api/searchAPI';
-import RestaurantsScreen from './RestaurantsScreen';
+import StackScreen from './StackScreen';
 
 const HomeScreen = ({ navigation }) => {
     // console.log(result)
@@ -24,7 +24,7 @@ const HomeScreen = ({ navigation }) => {
         );
     }
     return (
-        <RestaurantsScreen searchTerm={searchTerm}/>
+        <StackScreen searchTerm={searchTerm}/>
     );
 };
 

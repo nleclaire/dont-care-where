@@ -3,8 +3,10 @@ import { View, Text, StyleSheet, ImageBackground, FlatList, TouchableOpacity } f
 import { Context } from '../context/DontCareWhereContext';
 import RestaurantInfo from '../components/RestaurantInfo';
 import { searchApi } from '../api/searchAPI';
+import { Ionicons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 
-const RestaurantsScreen = ({ navigation, searchTerm }) => {
+const StackScreen = ({ navigation, searchTerm }) => {
     const { addRestaurant, state }  = useContext(Context);
     const [isLoading, setIsLoading] = useState(true);
     const [result, setResult] = useState(null);
@@ -29,6 +31,10 @@ const RestaurantsScreen = ({ navigation, searchTerm }) => {
                         <RestaurantInfo style={styles.container} result={result}/>
                     </ImageBackground>
                 </TouchableOpacity>
+                <View style={styles.icons}>
+                    <Feather class="alignContent: 'left'" name="x-circle" size={80} color="red" />
+                    <Ionicons name="md-checkmark-circle" size={80} color="green" />
+                </View>
             </View>
         );
         // return (
@@ -62,16 +68,28 @@ const RestaurantsScreen = ({ navigation, searchTerm }) => {
 
 const styles = StyleSheet.create({
     image: {
-        height: 800,
-        flexDirection: 'row'
+        height: 700,
+        flexDirection: 'row',
+        borderWidth: 5,
+        borderRadius: 10,
+        borderColor: '#cccccc'
     },
     container: {
         
     },
+    icons: {
+        flexDirection: 'row',
+        alignContent: 'space-around',
+        margin: 'auto',
+        justifyContent: 'space-evenly',
+        marginTop: 5
+    },
     card: {
-      flex: 1,
-      height: 650
+        flex: 1,
+        flexDirection: 'column',
+        height: 700,
+        margin: 5,
     }
 });
 
-export default RestaurantsScreen;
+export default StackScreen;
