@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
-import { searchApi } from '../api/searchAPI';
+// import { searchApi } from '../api/searchAPI';
 import StackScreen from './StackScreen';
 
 const HomeScreen = ({ navigation }) => {
