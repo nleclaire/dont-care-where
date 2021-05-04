@@ -3,35 +3,32 @@ import { useEffect, useState, useContext } from 'react';
 import yelp from '../api/yelp';
 import { Context } from '../context/DontCareWhereContext';
 
-const plsSearchApi = async (searchTerm) => {
+const searchApi = async (searchTerm) => {
     const [errorMessage, setErrorMessage] = useState(''); 
-    const { restaurants, addRestaurant } = useContext(Context);
+    const [restaurants, setRestaurants] = useState([]);
+    const { addRestaurant } = useContext(Context);
 
-    const response = await yelp.get('/search', {
-        params: {
-            limit: 50,
-            term: searchTerm,
-            location: 'Louisville'
-        }
-    });
+    try {
+        const response = await yelp.get('/search', {
+            params: {
+                limit: 50,
+                term: searchTerm,
+                location: 'Louisville'
+            }
+        });
+        setRestaurants(response.data.businesses);
+        // console.log(restaurants);
+        // restaurants.forEach(item => addRestaurant(item.id, item.name));
+        // for(let i = 0; i < restaurants.length; i++) {
+        //     addRestaurant(restaurants[i].id, restaurants[i].name);
+        // };
+    }
+    catch (err) {
+        setErrorMessage('Something went wrong');
+        console.log(err);
+    }
 
-    for(let i = 0; i < response.data.businesses.length; i++) {
-        addRestaurant(response.data.businesses[i].id, response.data.businesses[i].name);
-    };
-
-    // const searchApi = async (searchTerm) => {
-    //     try {
-            
-    //         console.log(response.data.businesses);
-            
-    //     }
-    //     catch (err) {
-    //         setErrorMessage('Something went wrong');
-    //         console.log(err);
-    //     }
-    // };
-
-    return response;
+    return [searchApi];
 };
 
-export default plsSearchApi;
+export default [searchApi];

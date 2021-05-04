@@ -3,16 +3,10 @@ import createDataContext from './createDataContext';
 const restaurantListReducer = (state, action) => {
     switch(action.type) {
         case 'add_restaurant':
-            // return state.map((restaurants) => {
-            //     return restaurants.id === action.payload.id
-            //         ? action.payload
-            //         :restaurants;
-            // }); 
-            return {
-                ...state, 
+            return [...state, {
                 id: action.payload.id,
                 name: action.payload.name 
-            };
+            }]; 
         case 'default':
             return state;
     };
